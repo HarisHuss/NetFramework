@@ -1,0 +1,5 @@
+C:\Users\s2100973\source\repos\Spaceinvader\Spaceinvader\bin\Release\net6.0\publish\win-x64\Spaceinvader.pdb
+C:\Users\s2100973\source\repos\Spaceinvader\Spaceinvader\bin\Release\net6.0\publish\win-x64\Enemy.png
+C:\Users\s2100973\source\repos\Spaceinvader\Spaceinvader\bin\Release\net6.0\publish\win-x64\Player.png
+C:\Users\s2100973\source\repos\Spaceinvader\Spaceinvader\bin\Release\net6.0\publish\win-x64\raylib.dll
+C:\Users\s2100973\source\repos\Spaceinvader\Spaceinvader\bin\Release\net6.0\publish\win-x64\Spaceinvader.exe
