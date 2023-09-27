@@ -1,5 +1,5 @@
 ﻿using System.Numerics;
-using Raylib_cs;
+using Raylib_CsLo;
 
 namespace Spaceinvaders
 {
@@ -43,7 +43,7 @@ namespace Spaceinvaders
 
         public void Draw()
         {
-            Raylib.DrawCircle((int)position.X, (int)position.Y, 5, Raylib_cs.Color.RED);
+            Raylib.DrawCircle((int)position.X, (int)position.Y, 5, Raylib_CsLo.Raylib.RED);
         }
 
     }

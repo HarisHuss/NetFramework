@@ -1,11 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "dC5XRXE3AoNIyYWPNrWkirvUKlF5FF8K1dsxY8Z6UeU9qkK95EyKQvIFbZY1I519oZ8nz9By0uUCvapVEESq+g==",
+  "dgSpecHash": "gYTElmEje8+QAThFh7mVeQWEw4npAGh3ygTEsl1kiCXw3Lc7BVZXqCXfGvWgH34Ya8dPPBDbMzCCArTcD9YFJw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\s2100973\\source\\repos\\Spaceinvader\\Spaceinvader\\Spaceinvader.csproj",
+  "projectFilePath": "C:\\Users\\s2100973\\OneDrive - Business College Helsinki\\Työpöytä\\NetFramework-main\\NetFramework-main\\Spaceinvader\\Spaceinvader\\Spaceinvader.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\s2100973\\.nuget\\packages\\raylib-cs\\4.5.0\\raylib-cs.4.5.0.nupkg.sha512",
-    "C:\\Users\\s2100973\\.nuget\\packages\\system.numerics.vectors\\4.5.0\\system.numerics.vectors.4.5.0.nupkg.sha512"
+    "C:\\Users\\s2100973\\.nuget\\packages\\microsoft.toolkit.highperformance\\7.1.2\\microsoft.toolkit.highperformance.7.1.2.nupkg.sha512",
+    "C:\\Users\\s2100973\\.nuget\\packages\\raylib-cslo\\4.2.0.9\\raylib-cslo.4.2.0.9.nupkg.sha512"
   ],
   "logs": []
 }

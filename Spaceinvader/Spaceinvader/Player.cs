@@ -1,4 +1,4 @@
-﻿using Raylib_cs;
+﻿using Raylib_CsLo;
 using System.Numerics;
 
 namespace Spaceinvaders
@@ -20,7 +20,7 @@ namespace Spaceinvaders
 
         public List<Bullets> bullets;
 
-        public Texture2D texture;
+        public Texture texture;
 
         public int score = 0;
 
@@ -29,6 +29,9 @@ namespace Spaceinvaders
         private int playerStart;
         private Vector2 vector2;
         private float playerSpeed;
+
+        bool useMouseControl = true;
+
 
         public Player(Vector2 position, Vector2 size, float speed, int health)
         {
@@ -56,18 +59,12 @@ namespace Spaceinvaders
         }
         public void Score()
         {
-            Raylib.DrawText($"Points: {score}", Raylib.GetScreenWidth() - 150, 20, 20, Raylib_cs.Color.BLACK);
+            Raylib.DrawText($"Points: {score}", Raylib.GetScreenWidth() - 150, 20, 20, Raylib_CsLo.Raylib.BLACK);
         }
 
 
         public void Update(List<Enemy> enemies)
         {
-
-            if (Raylib.IsKeyDown(KeyboardKey.KEY_RIGHT) && position.X < Raylib.GetScreenWidth() - 20)
-                position.X += pSpeed;
-            if (Raylib.IsKeyDown(KeyboardKey.KEY_LEFT) && position.X > 20)
-                position.X -= pSpeed;
-
 
             if (Raylib.IsKeyPressed(KeyboardKey.KEY_SPACE))
             {
@@ -75,17 +72,34 @@ namespace Spaceinvaders
                 Raylib.PlaySound(sound);
             }
 
-            Vector2 mousePosition = Raylib.GetMousePosition();
-            if (mousePosition.X < position.X && position.X > 20)
+            
+
+            if (Raylib.IsKeyDown(KeyboardKey.KEY_LEFT_CONTROL))
             {
-                position.X -= pSpeed;
-            }
-            else if (mousePosition.X > position.X && position.X < Raylib.GetScreenWidth() - 20)
-            {
-                position.X += pSpeed;
+                useMouseControl = !useMouseControl;
+            }   
+
+           if (useMouseControl)
+    {
+        Vector2 mousePosition = Raylib.GetMousePosition();
+        if (mousePosition.X < position.X && position.X > 20)
+        {
+            position.X -= pSpeed;
+        }
+        else if (mousePosition.X > position.X && position.X < Raylib.GetScreenWidth() - 20)
+        {
+            position.X += pSpeed;
+        }
+    }
+    else
+    {
+                if (Raylib.IsKeyDown(KeyboardKey.KEY_RIGHT) && position.X < Raylib.GetScreenWidth() - 20)
+                    position.X += pSpeed;
+                if (Raylib.IsKeyDown(KeyboardKey.KEY_LEFT) && position.X > 20)
+                    position.X -= pSpeed;
             }
 
-
+             
             for (int i = bullets.Count - 1; i >= 0; i--)
             {
                 bullets[i].Update();
@@ -118,13 +132,13 @@ namespace Spaceinvaders
         }
         public void Draw()
         {
-            Raylib.DrawTextureEx(texture, position, 0f, 0.1f, Raylib_cs.Color.WHITE);
-            Raylib.DrawRectangleLines((int)position.X, (int)position.Y, (int)size.X, (int)size.Y,  Raylib_cs.Color.RED);
+            Raylib.DrawTextureEx(texture, position, 0f, 0.1f, Raylib_CsLo.Raylib.WHITE);
+            Raylib.DrawRectangleLines((int)position.X, (int)position.Y, (int)size.X, (int)size.Y,  Raylib_CsLo.Raylib.RED);
 
             foreach (Bullets bullet in bullets)
                 bullet.Draw();
 
-            Raylib.DrawText("Health: " + pHealth, 10, 10, 20, Raylib_cs.Color.GREEN);
+            Raylib.DrawText("Health: " + pHealth, 10, 10, 20, Raylib_CsLo.Raylib.GREEN);
         }
     }
 }

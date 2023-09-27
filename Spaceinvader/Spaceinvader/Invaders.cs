@@ -1,5 +1,6 @@
 ﻿
-using Raylib_cs;
+using Raylib_CsLo;
+using Spaceinvader;
 using Spaceinvaders;
 using System;
 using System.Numerics;
@@ -19,23 +20,40 @@ namespace SpaceInvaders
         List<Enemy> enemies;
 
         StartScreen startScreen;
+        Developer developer;
 
         public bool moveRight = true;
         public static bool shouldChangeDirection = false;
         public bool moveDown = false;
         public float speed = 0.2f;
 
-        enum GameState { Playing, Win, Lose, Start };
-        GameState gameState = GameState.Start;
+        enum GameState { Playing, Win, Lose, Start, Paused, Developer};
+        Stack<GameState> gameState = new Stack<GameState>();
+
+        private TimeSpan playingTime;
+        private DateTime levelStartTime;
+        private bool restartLevelRequested = false;
+
+        private float volume = 0.5f;
+        private bool isMusicOn = true;
+        private int difficultyLevel = 3;
+        private bool settingsMenuActive = false;
+        bool playerInvincible = false;
+
+
 
         void init()
         {
+            gameState.Push(GameState.Start);
+
             startScreen = new StartScreen();
+            developer = new Developer();
 
             Raylib.InitWindow(screenWidth, screenHeight, "Space Invaders");
 
             Raylib.InitAudioDevice();
 
+            Raylib.SetExitKey(KeyboardKey.KEY_BACKSPACE);
 
             Raylib.SetTargetFPS(250);
         }
@@ -63,7 +81,9 @@ namespace SpaceInvaders
 
                 enemies.Add(enemy);
             }
+
         }
+
 
         public void GameLoop()
         {
@@ -72,40 +92,121 @@ namespace SpaceInvaders
 
             while (!Raylib.WindowShouldClose())
             {
-                switch (gameState)
+                switch (gameState.Peek())
                 {
                     case GameState.Start:
                         if (startScreen.Update())
                         {
-                            gameState = GameState.Playing;
+                            gameState.Push(GameState.Playing);
                         }
-                       
+
                         break;
                     case GameState.Playing:
-                        UpdateEnemies();
-                        player.Update(enemies);
-                        foreach (Enemy enemy in enemies.ToList())
+                        if (Raylib.IsKeyPressed(KeyboardKey.KEY_ESCAPE))
                         {
-                            enemy.Update(player);
+                            gameState.Push(GameState.Paused);
+                            levelStartTime = DateTime.Now - playingTime;
+                        }
+                        if (Raylib.IsKeyPressed(KeyboardKey.KEY_M))
+                        {
+                            #if DEBUG
+
+                            gameState.Push(GameState.Developer);
+
+                            #endif
+                        }
+                        else 
+                        {
+                            UpdateEnemies();
+                            player.Update(enemies);
+                            foreach (Enemy enemy in enemies.ToList())
+                            {
+                                enemy.Update(player, playerInvincible);
+                            }
                         }
                         break;
                     case GameState.Win:
                         break;
                     case GameState.Lose:
+                        drawGameOver();
                         break;
+
+                    case GameState.Paused:
+                        if (Raylib.IsKeyPressed(KeyboardKey.KEY_ESCAPE))
+                        {
+                            gameState.Push(GameState.Playing);
+                            playingTime = DateTime.Now - levelStartTime;
+                        }
+
+                        if (RayGui.GuiButton(new Rectangle(300, 400, 200, 50), "Restart Level"))
+                        {
+                            restartLevelRequested = true;
+                        }
+
+                        Raylib.DrawText($"Playing Time: {playingTime:mm\\:ss}", 300, 300, 30, Raylib.WHITE);
+
+                        if (Raylib.CheckCollisionPointRec(Raylib.GetMousePosition(), new Rectangle(300, 400, 200, 50)) && Raylib.IsMouseButtonReleased(0))
+                        {
+                            restartLevelRequested = true;
+                        }
+
+                        if (restartLevelRequested)
+                        {
+                            Reset();
+                            gameState.Push(GameState.Playing);
+                            restartLevelRequested = false;
+                        }
+
+                        if (RayGui.GuiButton(new Rectangle(300, 500, 200, 50), "Settings"))
+                        {
+                            settingsMenuActive = !settingsMenuActive;
+
+                        }
+
+                        if (settingsMenuActive)
+                        {
+                            DrawSettingsMenu();
+                        }
+
+                        break;
+
+                        if (player.pHealth <= 0)
+                        {
+                            gameState.Push(GameState.Lose);
+                        }
+
+                    case GameState.Developer:
+                        developer.Draw();
+
+                        if (developer.IsBackPressed())
+                        {
+                            playerInvincible = developer.IsInvincibilityToggled();
+
+                            gameState.Pop();
+                        }
+                        
+
+                        break;
+
+
                 }
+
 
                 Raylib.BeginDrawing();
 
-                Raylib.ClearBackground(Color.BLACK);
+                Raylib.ClearBackground(Raylib.BLACK);
 
-                switch (gameState)
+                switch (gameState.Peek())
                 {
                     case GameState.Start:
                         startScreen.Draw();
                         break;
                     case GameState.Playing:
                         drawGameStart();
+                        if (player.pHealth <= 0 || enemies.Count == 0)
+                        {
+                            gameState.Push(player.pHealth <= 0 ? GameState.Lose : GameState.Win);
+                        }
                         break;
                     case GameState.Win:
                         drawGameOver();
@@ -114,44 +215,40 @@ namespace SpaceInvaders
                         drawGameOver();
                         break;
                 }
-               
+
 
                 Raylib.EndDrawing();
 
-                if (player.pHealth <= 0 || enemies.Count == 0)
-                {
-                    gameState = player.pHealth <= 0 ? GameState.Lose : GameState.Win;
-                }
 
-                
+
             }
         }
 
 
         void drawGameOver()
         {
-            if (gameState == GameState.Lose)
+            if (gameState.Peek() == GameState.Lose)
             {
-                Raylib.ClearBackground(Raylib_cs.Color.RED);
-                Raylib.DrawText("Game Over!", 300, 500, 50, Raylib_cs.Color.BLACK);
+                Raylib.ClearBackground(Raylib_CsLo.Raylib.RED);
+                Raylib.DrawText("Game Over!", 300, 500, 50, Raylib_CsLo.Raylib.BLACK);
             }
-            else if (gameState == GameState.Win)
+            else if (gameState.Peek() == GameState.Win)
             {
-                Raylib.ClearBackground(Raylib_cs.Color.LIME);
-                Raylib.DrawText("You Win!", 300, 500, 50, Raylib_cs.Color.BLACK);
+                Raylib.ClearBackground(Raylib_CsLo.Raylib.LIME);
+                Raylib.DrawText("You Win!", 300, 500, 50, Raylib_CsLo.Raylib.BLACK);
             }
-            Raylib.DrawText("Press ENTER to start again", 270, 600, 30, Raylib_cs.Color.BLACK);
+            Raylib.DrawText("Press ENTER to start again", 270, 600, 30, Raylib_CsLo.Raylib.BLACK);
 
             if (Raylib.IsKeyPressed(KeyboardKey.KEY_ENTER))
             {
                 Reset();
-                gameState = GameState.Playing;
+                gameState.Pop();
             }
         }
 
         void drawGameStart()
         {
-            Raylib.ClearBackground(Raylib_cs.Color.WHITE);
+            Raylib.ClearBackground(Raylib_CsLo.Raylib.WHITE);
             player.Draw();
             foreach (Enemy enemy in enemies)
             {
@@ -207,6 +304,20 @@ namespace SpaceInvaders
                 }
             }
         }
+        private void DrawSettingsMenu()
+        {
+            Raylib.DrawRectangle(200, 300, 400, 400, Raylib_CsLo.Raylib.LIGHTGRAY);
+            Raylib.DrawText("Settings", 345, 320, 30, Raylib_CsLo.Raylib.DARKGRAY);
+
+            Rectangle backButton = new Rectangle(300, 420, 100, 50);
+            bool backButtonHovered = Raylib.CheckCollisionPointRec(Raylib.GetMousePosition(), backButton);
+
+            if (RayGui.GuiButton(new Rectangle(300, 600, 200, 50), "Back"))
+            {
+                settingsMenuActive = false;
+            }
+        }
+
     }
 }
 

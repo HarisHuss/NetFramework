@@ -1,0 +1,9 @@
+C:\Users\s2100973\OneDrive - Business College Helsinki\Työpöytä\Space Peli\Spaceinvader.pdb
+C:\Users\s2100973\OneDrive - Business College Helsinki\Työpöytä\Space Peli\Enemy.png
+C:\Users\s2100973\OneDrive - Business College Helsinki\Työpöytä\Space Peli\Hit.wav
+C:\Users\s2100973\OneDrive - Business College Helsinki\Työpöytä\Space Peli\menu.png
+C:\Users\s2100973\OneDrive - Business College Helsinki\Työpöytä\Space Peli\Player.png
+C:\Users\s2100973\OneDrive - Business College Helsinki\Työpöytä\Space Peli\Shoot.wav
+C:\Users\s2100973\OneDrive - Business College Helsinki\Työpöytä\Space Peli\raylib.dll
+C:\Users\s2100973\OneDrive - Business College Helsinki\Työpöytä\Space Peli\raylib.pdb
+C:\Users\s2100973\OneDrive - Business College Helsinki\Työpöytä\Space Peli\Spaceinvader.exe

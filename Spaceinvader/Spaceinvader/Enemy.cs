@@ -1,4 +1,4 @@
-﻿using Raylib_cs;
+﻿using Raylib_CsLo;
 using System.Numerics;
 
 
@@ -18,7 +18,7 @@ namespace Spaceinvaders
         private float bulletCooldownMax = 12000;
 
 
-        private Texture2D texture;
+        private Texture texture;
 
 
         private float speed;
@@ -42,7 +42,7 @@ namespace Spaceinvaders
             bulletCooldownMax = Raylib.GetRandomValue(5000, 15000);
         }
 
-        public void Update(Player player)
+        public void Update(Player player, bool playerInvincible)
         {
 
             if (health <= 0)
@@ -66,6 +66,11 @@ namespace Spaceinvaders
             {
                 bullet.Update();
 
+                if (playerInvincible)
+                {
+                    continue;
+                }
+
                 foreach (Player otherPlayer in players)
                 {
                     if (Raylib.CheckCollisionCircles(bullet.position, 5, player.position, 40))
@@ -85,7 +90,7 @@ namespace Spaceinvaders
 
         public void Draw()
         {
-            Raylib.DrawTextureEx(texture, position, 0f, 0.1f, Raylib_cs.Color.WHITE);
+            Raylib.DrawTextureEx(texture, position, 0f, 0.1f, Raylib_CsLo.Raylib.WHITE);
 
             foreach (Bullets bullet in bullets)
                 bullet.Draw();

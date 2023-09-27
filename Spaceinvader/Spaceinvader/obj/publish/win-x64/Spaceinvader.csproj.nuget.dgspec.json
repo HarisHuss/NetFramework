@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\s2100973\\source\\repos\\Spaceinvader\\Spaceinvader\\Spaceinvader.csproj": {}
+    "C:\\Users\\s2100973\\OneDrive - Business College Helsinki\\Työpöytä\\NetFramework-main\\NetFramework-main\\Spaceinvader\\Spaceinvader\\Spaceinvader.csproj": {}
   },
   "projects": {
-    "C:\\Users\\s2100973\\source\\repos\\Spaceinvader\\Spaceinvader\\Spaceinvader.csproj": {
+    "C:\\Users\\s2100973\\OneDrive - Business College Helsinki\\Työpöytä\\NetFramework-main\\NetFramework-main\\Spaceinvader\\Spaceinvader\\Spaceinvader.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\s2100973\\source\\repos\\Spaceinvader\\Spaceinvader\\Spaceinvader.csproj",
+        "projectUniqueName": "C:\\Users\\s2100973\\OneDrive - Business College Helsinki\\Työpöytä\\NetFramework-main\\NetFramework-main\\Spaceinvader\\Spaceinvader\\Spaceinvader.csproj",
         "projectName": "Spaceinvader",
-        "projectPath": "C:\\Users\\s2100973\\source\\repos\\Spaceinvader\\Spaceinvader\\Spaceinvader.csproj",
+        "projectPath": "C:\\Users\\s2100973\\OneDrive - Business College Helsinki\\Työpöytä\\NetFramework-main\\NetFramework-main\\Spaceinvader\\Spaceinvader\\Spaceinvader.csproj",
         "packagesPath": "C:\\Users\\s2100973\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\s2100973\\source\\repos\\Spaceinvader\\Spaceinvader\\obj\\publish\\win-x64\\",
+        "outputPath": "C:\\Users\\s2100973\\OneDrive - Business College Helsinki\\Työpöytä\\NetFramework-main\\NetFramework-main\\Spaceinvader\\Spaceinvader\\obj\\publish\\win-x64\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -44,9 +44,9 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
-            "Raylib-cs": {
+            "Raylib-CsLo": {
               "target": "Package",
-              "version": "[4.5.0, )"
+              "version": "[4.2.0.9, )"
             }
           },
           "imports": [
